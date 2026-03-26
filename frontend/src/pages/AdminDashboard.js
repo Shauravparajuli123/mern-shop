@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import API from '../api';
-import { useAuth } from '../context/AuthContext';
 
 const AdminDashboard = () => {
-  const { user } = useAuth();
   const [tab, setTab] = useState('products');
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -41,7 +39,7 @@ const AdminDashboard = () => {
       <h2>Admin Dashboard</h2>
       <div style={{ marginBottom: 24 }}>
         <button style={btnStyle(tab === 'products')} onClick={() => setTab('products')}>Products</button>
-        <button style={btnStyle(tab === 'orders')}   onClick={() => setTab('orders')}>Orders</button>
+        <button style={btnStyle(tab === 'orders')} onClick={() => setTab('orders')}>Orders</button>
       </div>
 
       {tab === 'products' && (
