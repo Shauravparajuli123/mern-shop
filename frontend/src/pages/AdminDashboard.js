@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../api';
 import { useAuth } from '../context/AuthContext';
 
 const AdminDashboard = () => {
@@ -9,7 +9,11 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [form, setForm] = useState({ name: '', price: '', category: '', description: '', stock: '', image: '' });
 
-  const headers = { Authorization: `Bearer ${user.token}` };
+  useEffect(() => {
+    const headers = { Authorization: `Bearer ${user.token}` };
+    API.get('/api/products').then(({ data }) => setProducts(data));
+    API.get('/api/orders', { headers }).then(({ data }) => setOrders(data));
+  }, [user.token]);
 
   useEffect(() => {
     axios.get('/api/products').then(({ data }) => setProducts(data));
