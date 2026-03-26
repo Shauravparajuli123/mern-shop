@@ -10,17 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const userRoutes = require('./routes/userRoutes');
-const productRoutes = require('./routes/productRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-
-console.log('userRoutes:', userRoutes);
-console.log('productRoutes:', productRoutes);
-console.log('orderRoutes:', orderRoutes);
-
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/users',    require('./routes/userRoutes'));
+app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/orders',   require('./routes/orderRoutes'));
+app.use('/api/upload',   require('./routes/uploadRoutes'));
 
 app.get('/', (req, res) => res.send('API is running...'));
 
