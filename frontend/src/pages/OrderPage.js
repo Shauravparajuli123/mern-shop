@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import API from '../api';
 
 const OrderPage = () => {
   const { id } = useParams();
-  const { user } = useAuth();
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
-    axios.get(`/api/orders/${id}`, {
-      headers: { Authorization: `Bearer ${user.token}` }
-    }).then(({ data }) => setOrder(data));
+    API.get(`/api/orders/${id}`).then(({ data }) => setOrder(data));
   }, [id]);
 
   if (!order) return <p style={{ padding: 24 }}>Loading order...</p>;

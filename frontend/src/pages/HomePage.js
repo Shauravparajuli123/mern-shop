@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import API from '../api';
 import { useCart } from '../context/CartContext';
 
 const HomePage = () => {
@@ -8,7 +8,7 @@ const HomePage = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    axios.get('/api/products').then(({ data }) => setProducts(data));
+    API.get('/api/products').then(({ data }) => setProducts(data));
   }, []);
 
   return (

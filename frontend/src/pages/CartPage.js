@@ -1,18 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../api';
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
 
 const CartPage = () => {
   const { cartItems, removeFromCart, clearCart, total } = useCart();
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const placeOrder = async () => {
     try {
-      const { data } = await axios.post('/api/orders',
-        { items: cartItems, shippingAddress: { address: '123 Main St', city: 'NYC', zip: '10001' }, totalPrice: total },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+      const { data } = await API.post('/api/orders',
+        { items: cartItems, shippingAddress: { address: '123 Main St', city: 'NYC', zip: '10001' }, totalPrice: total }
       );
       clearCart();
       navigate(`/order/${data._id}`);

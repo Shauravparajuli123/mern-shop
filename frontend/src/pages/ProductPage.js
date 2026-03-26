@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import API from '../api';
 import { useCart } from '../context/CartContext';
 
 const ProductPage = () => {
@@ -9,7 +9,7 @@ const ProductPage = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    axios.get(`/api/products/${id}`).then(({ data }) => setProduct(data));
+    API.get(`/api/products/${id}`).then(({ data }) => setProduct(data));
   }, [id]);
 
   if (!product) return <p style={{ padding: 24 }}>Loading...</p>;
