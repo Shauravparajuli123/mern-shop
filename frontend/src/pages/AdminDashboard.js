@@ -10,29 +10,23 @@ const AdminDashboard = () => {
   const [form, setForm] = useState({ name: '', price: '', category: '', description: '', stock: '', image: '' });
 
   useEffect(() => {
-    const headers = { Authorization: `Bearer ${user.token}` };
     API.get('/api/products').then(({ data }) => setProducts(data));
-    API.get('/api/orders', { headers }).then(({ data }) => setOrders(data));
-  }, [user.token]);
-
-  useEffect(() => {
-    axios.get('/api/products').then(({ data }) => setProducts(data));
-    axios.get('/api/orders', { headers }).then(({ data }) => setOrders(data));
+    API.get('/api/orders').then(({ data }) => setOrders(data));
   }, []);
 
   const createProduct = async () => {
-    const { data } = await axios.post('/api/products', form, { headers });
+    const { data } = await API.post('/api/products', form);
     setProducts([...products, data]);
     setForm({ name: '', price: '', category: '', description: '', stock: '', image: '' });
   };
 
   const deleteProduct = async (id) => {
-    await axios.delete(`/api/products/${id}`, { headers });
+    await API.delete(`/api/products/${id}`);
     setProducts(products.filter((p) => p._id !== id));
   };
 
   const markDelivered = async (id) => {
-    const { data } = await axios.put(`/api/orders/${id}/deliver`, {}, { headers });
+    const { data } = await API.put(`/api/orders/${id}/deliver`, {});
     setOrders(orders.map((o) => (o._id === id ? data : o)));
   };
 
