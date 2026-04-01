@@ -1,10 +1,15 @@
+import PromoCode from '../components/PromoCode';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import { useCart } from '../context/CartContext';
 
 const CartPage = () => {
   const { cartItems, removeFromCart, clearCart, total } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const [discount, setDiscount] = useState(0);
 
   const placeOrder = async () => {
     try {
@@ -32,6 +37,18 @@ const CartPage = () => {
                 style={{ background: 'none', border: 'none', color: 'red', cursor: 'pointer', fontSize: 18 }}>✕</button>
             </div>
           ))}
+          <PromoCode onApply={(d) => setDiscount(d)} />
+
+<div style={{ marginTop: 16 }}>
+  {discount > 0 && (
+    <p style={{ color: 'green', fontWeight: 600 }}>
+      Discount: -{discount}% = -${(total * discount / 100).toFixed(2)}
+    </p>
+  )}
+  <strong style={{ fontSize: 18 }}>
+    Final Total: ${(total - (total * discount / 100)).toFixed(2)}
+  </strong>
+</div>
           <div style={{ marginTop: 20, textAlign: 'right' }}>
             <strong>Total: ${total.toFixed(2)}</strong><br /><br />
             <button onClick={placeOrder}

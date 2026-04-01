@@ -1,10 +1,31 @@
 const Product = require('../models/Product');
 
+const { nfaSearch } = require('../utils/dfaSearch');
+
 const getProducts = async (req, res) => {
-  const keyword = req.query.keyword
-    ? { name: { $regex: req.query.keyword, $options: 'i' } } : {};
-  const products = await Product.find(keyword);
-  res.json(products);
+  try {
+    const { keyword, pattern } = req.query;
+    let products = await Product.find({});
+
+    if (pattern) {
+      // Use DFA/NFA search for pattern matching
+      products = nfaSearch(products, pattern);
+    } else if (keyword) {
+      // Regular keyword search
+      const keywordFilter = {
+        $or: [
+          { name:        { $regex: keyword, $options: 'i' } },
+          { description: { $regex: keyword, $options: 'i' } },
+          { category:    { $regex: keyword, $options: 'i' } },
+        ],
+      };
+      products = await Product.find(keywordFilter);
+    }
+
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const getProductById = async (req, res) => {
