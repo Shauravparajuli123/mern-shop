@@ -165,7 +165,8 @@ const ProductCard = ({ product: p, user, onAddToCart }) => {
         height: 210, position: 'relative', overflow: 'hidden',
       }}>
         <img
-          src={p.thumbnail || p.image || 'https://via.placeholder.com/200'}
+          src={p.thumbnail || p.image || ''}
+onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
           alt={p.name}
           style={{
             maxHeight: 170, maxWidth: '100%',

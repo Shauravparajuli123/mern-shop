@@ -87,7 +87,8 @@ const CartPage = () => {
                   overflow: 'hidden',
                 }}>
                   <img
-                    src={item.thumbnail || item.image || 'https://via.placeholder.com/80'}
+                    src={item.thumbnail || item.image || ''}
+onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
                     alt={item.name}
                     style={{ maxWidth: 80, maxHeight: 80, objectFit: 'contain' }}
                   />
