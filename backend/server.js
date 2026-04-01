@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+app.use('/api/upload', require('./routes/uploadRoutes'));
 
 dotenv.config();
 connectDB();
